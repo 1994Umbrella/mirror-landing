@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智能助手 - 小程序</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 80px 20px 60px;
+      text-align: center;
+    }
+    .hero-icon {
+      width: 100px; height: 100px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 48px;
+    }
+    .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .hero p { font-size: 16px; opacity: 0.85; line-height: 1.6; max-width: 320px; margin: 0 auto; }
+    .qrcode-box {
+      display: inline-block;
+      background: white;
+      padding: 16px;
+      border-radius: 16px;
+      margin-top: 32px;
+    }
+    .qrcode-box img {
+      width: 140px; height: 140px;
+      display: block;
+    }
+    .qrcode-box p {
+      color: #666;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .features {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 40px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
+    .feature-card h3 { font-size: 18px; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: #666; line-height: 1.6; }
+    .download {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+    }
+    .download h2 { font-size: 24px; margin-bottom: 12px; }
+    .download p { color: #666; margin-bottom: 28px; }
+    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 12px;
+      font-size: 16px; font-weight: 600; text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .btn:hover { transform: scale(1.04); }
+    .btn-primary { background: #667eea; color: white; }
+    .btn-secondary { background: #f0f0f5; color: #333; }
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: #999;
+      font-size: 13px;
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 26px; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-icon">✦</div>
+    <h1>智能助手</h1>
+    <p>你的随身 AI 工具，帮你写文案、查资料、记录灵感，随时随地高效工作</p>
+    <div class="qrcode-box">
+      <div style="width:140px;height:140px;background:#f0f0f5;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;">微信扫码体验</div>
+      <p>微信小程序</p>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>核心功能</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">💬</div>
+        <h3>AI 对话</h3>
+        <p>智能问答，帮你解决工作学习中的各种问题</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📝</div>
+        <h3>文案写作</h3>
+        <p>一键生成文案、报告、邮件，告别写作困难</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🔍</div>
+        <h3>智能搜索</h3>
+        <p>快速查找资料，提炼重点，提升信息获取效率</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📌</div>
+        <h3>灵感笔记</h3>
+        <p>随时记录想法，自动分类整理，再也不怕灵感丢失</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="download">
+    <h2>立即体验</h2>
+    <p>打开微信扫描上方二维码，即刻开始使用</p>
+    <div class="btn-group">
+      <a href="#" class="btn btn-primary">📱 微信打开</a>
+      <a href="#" class="btn btn-secondary">🌐 在线预览</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 智能助手 · 让工作更简单
+  </footer>
+</body>
+</html>
