@@ -3,154 +3,406 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>智能助手 - 小程序</title>
+  <title>镜界 · 液态玻璃智能助手</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 60px rgba(0, 0, 0, 0.4);
+      --text-primary: #f0eeff;
+      --text-secondary: rgba(240, 238, 255, 0.6);
+      --accent-1: #6ec8ff;
+      --accent-2: #b47cff;
+      --accent-3: #ff7eb3;
+      --radius: 28px;
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #f5f7fa;
-      color: #1a1a2e;
+      font-family: 'DM Sans', sans-serif;
+      background: #08080f;
+      color: var(--text-primary);
       min-height: 100vh;
+      overflow-x: hidden;
     }
-    .hero {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 80px 20px 60px;
-      text-align: center;
+
+    /* ─── Ambient Blob Background ─── */
+    .blobs {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
     }
-    .hero-icon {
-      width: 100px; height: 100px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 48px;
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.35;
+      animation: blobFloat 20s ease-in-out infinite;
     }
-    .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
-    .hero p { font-size: 16px; opacity: 0.85; line-height: 1.6; max-width: 320px; margin: 0 auto; }
-    .qrcode-box {
-      display: inline-block;
-      background: white;
-      padding: 16px;
-      border-radius: 16px;
-      margin-top: 32px;
+    .blob:nth-child(1) {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #6ec8ff, #b47cff);
+      top: -10%; left: -10%;
+      animation-delay: 0s;
     }
-    .qrcode-box img {
-      width: 140px; height: 140px;
-      display: block;
+    .blob:nth-child(2) {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #ff7eb3, #b47cff);
+      bottom: -15%; right: -8%;
+      animation-delay: -6s;
     }
-    .qrcode-box p {
-      color: #666;
-      font-size: 13px;
-      margin-top: 8px;
+    .blob:nth-child(3) {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #6ec8ff, #ff7eb3);
+      top: 40%; left: 50%;
+      animation-delay: -12s;
     }
-    .features {
-      padding: 60px 20px;
-      max-width: 1000px;
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(60px, -80px) scale(1.08); }
+      50% { transform: translate(-40px, 60px) scale(0.92); }
+      75% { transform: translate(80px, 40px) scale(1.04); }
+    }
+
+    /* ─── Noise Overlay ─── */
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ─── Glass ─── */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(32px) saturate(1.2);
+      -webkit-backdrop-filter: blur(32px) saturate(1.2);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
       margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 0 60px;
+    }
+    .hero-card {
+      max-width: 560px;
+      width: 100%;
+      padding: 56px 40px 48px;
+      border-radius: 48px;
+      animation: fadeUp 1s ease-out;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-icon {
+      width: 96px; height: 96px;
+      margin: 0 auto 28px;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      background: linear-gradient(135deg, rgba(110,200,255,0.2), rgba(180,124,255,0.2));
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .hero-icon::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 28px;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0.5;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 44px;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #f0eeff 30%, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 380px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-qr {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      padding: 12px 24px 12px 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .hero-qr:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .hero-qr .qr-placeholder {
+      width: 64px; height: 64px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+    }
+    .hero-qr .qr-text {
+      text-align: left;
+    }
+    .hero-qr .qr-text strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .hero-qr .qr-text span {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* ─── Features ─── */
+    .features {
+      padding: 40px 0 100px;
     }
     .features h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
       text-align: center;
-      font-size: 24px;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
+      letter-spacing: -0.01em;
     }
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 20px;
     }
     .feature-card {
-      background: white;
-      border-radius: 16px;
-      padding: 28px 24px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      transition: transform 0.2s, box-shadow 0.2s;
+      padding: 36px 28px 32px;
+      border-radius: var(--radius);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s;
+      animation: fadeUp 1s ease-out backwards;
     }
+    .feature-card:nth-child(1) { animation-delay: 0.1s; }
+    .feature-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-card:nth-child(3) { animation-delay: 0.3s; }
+    .feature-card:nth-child(4) { animation-delay: 0.4s; }
+
     .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      transform: translateY(-8px) scale(1.01);
+      border-color: rgba(255,255,255,0.15);
     }
-    .feature-card .icon { font-size: 32px; margin-bottom: 12px; }
-    .feature-card h3 { font-size: 18px; margin-bottom: 8px; }
-    .feature-card p { font-size: 14px; color: #666; line-height: 1.6; }
-    .download {
+    .feature-card .f-icon {
+      font-size: 34px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 19px;
+      margin-bottom: 10px;
+    }
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 14.5px;
+      line-height: 1.7;
+    }
+
+    /* ─── CTA ─── */
+    .cta {
       text-align: center;
-      padding: 60px 20px;
-      background: white;
+      padding: 80px 0 100px;
     }
-    .download h2 { font-size: 24px; margin-bottom: 12px; }
-    .download p { color: #666; margin-bottom: 28px; }
-    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .cta-card {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 52px 40px 48px;
+      border-radius: 48px;
+      animation: fadeUp 1s ease-out backwards;
+    }
+    .cta h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .cta p {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      font-size: 15px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 32px; border-radius: 12px;
-      font-size: 16px; font-weight: 600; text-decoration: none;
-      transition: transform 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      border-radius: 60px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+      font-family: 'DM Sans', sans-serif;
+      border: none;
+      cursor: pointer;
     }
-    .btn:hover { transform: scale(1.04); }
-    .btn-primary { background: #667eea; color: white; }
-    .btn-secondary { background: #f0f0f5; color: #333; }
+    .btn:hover { transform: scale(1.05); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #08080f;
+      box-shadow: 0 4px 30px rgba(110, 200, 255, 0.25);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 8px 40px rgba(110, 200, 255, 0.35);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-primary);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    /* ─── Footer ─── */
     footer {
       text-align: center;
       padding: 24px;
-      color: #999;
+      color: rgba(240, 238, 255, 0.25);
       font-size: 13px;
+      position: relative;
+      z-index: 2;
     }
-    @media (max-width: 480px) {
-      .hero h1 { font-size: 26px; }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 8px; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      .hero-card { padding: 40px 24px 36px; border-radius: 32px; }
+      .hero h1 { font-size: 30px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .cta-card { padding: 40px 24px; border-radius: 32px; }
       .btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
+  <div class="blobs">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+  </div>
+  <div class="noise"></div>
+
   <section class="hero">
-    <div class="hero-icon">✦</div>
-    <h1>智能助手</h1>
-    <p>你的随身 AI 工具，帮你写文案、查资料、记录灵感，随时随地高效工作</p>
-    <div class="qrcode-box">
-      <div style="width:140px;height:140px;background:#f0f0f5;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px;">微信扫码体验</div>
-      <p>微信小程序</p>
+    <div class="container">
+      <div class="hero-card glass">
+        <div class="hero-icon">✦</div>
+        <h1>镜界</h1>
+        <p>液态玻璃质感下的 AI 助手。对话、写作、搜索、笔记——一切如流体般自然。</p>
+        <div class="hero-qr">
+          <div class="qr-placeholder">微信<br>扫码</div>
+          <div class="qr-text">
+            <strong>微信小程序</strong>
+            <span>即刻体验 · 无需下载</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="features">
-    <h2>核心功能</h2>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="icon">💬</div>
-        <h3>AI 对话</h3>
-        <p>智能问答，帮你解决工作学习中的各种问题</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">📝</div>
-        <h3>文案写作</h3>
-        <p>一键生成文案、报告、邮件，告别写作困难</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">🔍</div>
-        <h3>智能搜索</h3>
-        <p>快速查找资料，提炼重点，提升信息获取效率</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">📌</div>
-        <h3>灵感笔记</h3>
-        <p>随时记录想法，自动分类整理，再也不怕灵感丢失</p>
+    <div class="container">
+      <h2>液态 · 四核</h2>
+      <div class="feature-grid">
+        <div class="feature-card glass">
+          <span class="f-icon">💬</span>
+          <h3>AI 对话</h3>
+          <p>自然语义理解，多轮对话如流水般顺畅。</p>
+        </div>
+        <div class="feature-card glass">
+          <span class="f-icon">📝</span>
+          <h3>文案写作</h3>
+          <p>从灵感到成稿，AI 辅助创作一气呵成。</p>
+        </div>
+        <div class="feature-card glass">
+          <span class="f-icon">🔍</span>
+          <h3>智能检索</h3>
+          <p>信息碎片汇入玻璃容器，精准提炼所需。</p>
+        </div>
+        <div class="feature-card glass">
+          <span class="f-icon">📌</span>
+          <h3>灵感笔记</h3>
+          <p>思想如液体流动，随时捕获，永不蒸发。</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="download">
-    <h2>立即体验</h2>
-    <p>打开微信扫描上方二维码，即刻开始使用</p>
-    <div class="btn-group">
-      <a href="#" class="btn btn-primary">📱 微信打开</a>
-      <a href="#" class="btn btn-secondary">🌐 在线预览</a>
+  <section class="cta">
+    <div class="container">
+      <div class="cta-card glass">
+        <h2>流入镜界</h2>
+        <p>微信扫描上方二维码，开启液态体验</p>
+        <div class="btn-group">
+          <a href="#" class="btn btn-primary">← 微信打开</a>
+          <a href="#" class="btn btn-ghost">在线预览 →</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <footer>
-    © 2026 智能助手 · 让工作更简单
-  </footer>
+  <footer>© 2026 镜界 · 液态玻璃 AI</footer>
 </body>
 </html>
