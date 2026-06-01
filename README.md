@@ -8,6 +8,7 @@
 - **玻璃拟态卡片** — `backdrop-filter: blur()` 实现磨砂玻璃质感
 - **虹彩渐变边框** — 图标和玻璃元素带有光折射般的渐变色描边
 - **极简暗色主题** — 深色背景凸显玻璃通透感，减少视觉干扰
+- **固定导航栏** — 毛玻璃效果导航，平滑滚动定位
 
 ## 技术栈
 
@@ -18,14 +19,12 @@
 
 ## 在线预览
 
-👉 https://1994umbrella.github.io/landing-page/
+👉 https://1994umbrella.github.io/mirror-landing/
 
 ## 本地运行
 
 ```bash
-# 克隆仓库
-git clone https://github.com/1994Umbrella/landing-page.git
-
+git clone https://github.com/1994Umbrella/mirror-landing.git
 # 直接用浏览器打开 index.html
 ```
 

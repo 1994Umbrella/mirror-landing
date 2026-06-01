@@ -12,7 +12,7 @@
       --glass-border: rgba(255, 255, 255, 0.08);
       --glass-shadow: 0 8px 60px rgba(0, 0, 0, 0.4);
       --text-primary: #f0eeff;
-      --text-secondary: rgba(240, 238, 255, 0.6);
+      --text-secondary: rgba(240, 238, 255, 0.55);
       --accent-1: #6ec8ff;
       --accent-2: #b47cff;
       --accent-3: #ff7eb3;
@@ -29,7 +29,9 @@
       overflow-x: hidden;
     }
 
-    /* ─── Ambient Blob Background ─── */
+    html { scroll-behavior: smooth; }
+
+    /* ─── Blob Background ─── */
     .blobs {
       position: fixed;
       inset: 0;
@@ -80,7 +82,6 @@
       background-size: 256px 256px;
     }
 
-    /* ─── Glass ─── */
     .glass {
       background: var(--glass-bg);
       backdrop-filter: blur(32px) saturate(1.2);
@@ -97,6 +98,67 @@
       padding: 0 24px;
     }
 
+    /* ─── Nav ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8, 8, 15, 0.6);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .nav-logo span {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-inner a {
+      padding: 8px 20px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: background 0.25s, color 0.25s;
+    }
+    .nav-inner a:hover {
+      background: rgba(255,255,255,0.06);
+      color: var(--text-primary);
+    }
+    .nav-inner .nav-cta {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+      color: #08080f !important;
+      font-weight: 600 !important;
+    }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
     /* ─── Hero ─── */
     .hero {
       min-height: 100vh;
@@ -104,7 +166,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 100px 0 60px;
+      padding: 120px 0 60px;
     }
     .hero-card {
       max-width: 560px;
@@ -187,9 +249,7 @@
       color: var(--text-secondary);
       letter-spacing: 0.04em;
     }
-    .hero-qr .qr-text {
-      text-align: left;
-    }
+    .hero-qr .qr-text { text-align: left; }
     .hero-qr .qr-text strong {
       display: block;
       font-size: 15px;
@@ -299,9 +359,7 @@
       color: #08080f;
       box-shadow: 0 4px 30px rgba(110, 200, 255, 0.25);
     }
-    .btn-primary:hover {
-      box-shadow: 0 8px 40px rgba(110, 200, 255, 0.35);
-    }
+    .btn-primary:hover { box-shadow: 0 8px 40px rgba(110, 200, 255, 0.35); }
     .btn-ghost {
       background: rgba(255,255,255,0.04);
       color: var(--text-primary);
@@ -316,19 +374,22 @@
     footer {
       text-align: center;
       padding: 24px;
-      color: rgba(240, 238, 255, 0.25);
+      color: rgba(240, 238, 255, 0.2);
       font-size: 13px;
       position: relative;
       z-index: 2;
+      border-top: 1px solid rgba(255,255,255,0.03);
     }
 
-    /* ─── Scrollbar ─── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 8px; }
 
     /* ─── Responsive ─── */
     @media (max-width: 600px) {
+      nav { padding: 12px 16px; }
+      .nav-inner { display: none; }
+      .nav-toggle { display: block; }
       .hero-card { padding: 40px 24px 36px; border-radius: 32px; }
       .hero h1 { font-size: 30px; }
       .feature-grid { grid-template-columns: 1fr; }
@@ -345,12 +406,23 @@
   </div>
   <div class="noise"></div>
 
-  <section class="hero">
+  <nav>
+    <a href="#" class="nav-logo">✦ <span>镜界</span></a>
+    <div class="nav-inner">
+      <a href="#hero">首页</a>
+      <a href="#features">功能</a>
+      <a href="#cta">下载</a>
+      <a href="#cta" class="nav-cta">立即体验</a>
+    </div>
+    <button class="nav-toggle">☰</button>
+  </nav>
+
+  <section class="hero" id="hero">
     <div class="container">
       <div class="hero-card glass">
         <div class="hero-icon">✦</div>
         <h1>镜界</h1>
-        <p>液态玻璃质感下的 AI 助手。对话、写作、搜索、笔记——一切如流体般自然。</p>
+        <p>液态玻璃质感下的 AI 助手。对话、写作、检索、笔记——一切如流体般自然。</p>
         <div class="hero-qr">
           <div class="qr-placeholder">微信<br>扫码</div>
           <div class="qr-text">
@@ -362,7 +434,7 @@
     </div>
   </section>
 
-  <section class="features">
+  <section class="features" id="features">
     <div class="container">
       <h2>液态 · 四核</h2>
       <div class="feature-grid">
@@ -390,7 +462,7 @@
     </div>
   </section>
 
-  <section class="cta">
+  <section class="cta" id="cta">
     <div class="container">
       <div class="cta-card glass">
         <h2>流入镜界</h2>
